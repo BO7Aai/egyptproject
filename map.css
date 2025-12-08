@@ -122,73 +122,6 @@ nav {
 .back-link { text-decoration: none; color: #aaa; font-size: 0.9rem; transition: 0.3s; font-family: var(--font-ar-text); }
 .back-link:hover { color: var(--gold); }
 
-/* =========================================
-   4. MAP STYLES
-   ========================================= */
-/* =========================================
-   MAP VIEWPORT FIX
-   ========================================= */
-.map-viewport {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1200px; 
-    overflow: hidden; 
-    z-index: 1; /* Ensure it is behind the Nav (z-index 100) */
-    padding-top: 60px; /* Pushes map down slightly so top isn't hidden */
-}
-
-.map-transform-layer {
-    position: relative;
-    width: 600px; 
-    height: 750px;
-    transform-style: preserve-3d;
-    transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-    /* Scale down slightly on small screens to fit */
-    transform: scale(0.9); 
-}
-
-/* Mobile Adjustment */
-@media screen and (max-width: 768px) {
-    .map-transform-layer {
-        transform: scale(0.65); /* Shrink map on mobile */
-        margin-top: 50px;
-    }
-}
-.map-transform-layer {
-    position: relative; width: 600px; height: 750px; /* Adjusted Aspect Ratio for Egypt */
-    transform-style: preserve-3d;
-    transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.radar-scan {
-    position: absolute; top: 50%; left: 50%; width: 150%; height: 150%;
-    transform: translate(-50%, -50%);
-    background: conic-gradient(from 0deg, transparent 0%, transparent 80%, rgba(212, 175, 55, 0.1) 100%);
-    border-radius: 50%; animation: radar 4s linear infinite; pointer-events: none; z-index: -1;
-}
-@keyframes radar { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-.egypt-map { width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.2)); }
-.land-path {
-    fill: rgba(20, 20, 25, 0.85); 
-    stroke: var(--gold); 
-    stroke-width: 1.5;
-    vector-effect: non-scaling-stroke;
-    /* The Animation */
-    animation: mapPulse 4s infinite alternate ease-in-out;
-}
-.nile-path {
-    fill: none; stroke: var(--cyan); stroke-width: 3; stroke-linecap: round;
-    filter: drop-shadow(0 0 8px var(--cyan));
-    stroke-dasharray: 20; animation: flow 30s linear infinite;
-}
-@keyframes flow { to { stroke-dashoffset: -1000; } }
 
 /* =========================================
    5. PINS (أيقونات ملونة)
@@ -200,12 +133,12 @@ nav {
 }
 
 .pin-icon {
-    width: 45px; height: 45px;
+    width: 30px; height: 30px;
     background: rgba(0,0,0,0.8);
     border: 2px solid var(--gold);
     border-radius: 50%;
     display: flex; justify-content: center; align-items: center;
-    color: var(--gold); font-size: 1.1rem;
+    color: var(--gold); font-size: 0.8rem;
     box-shadow: 0 0 15px var(--gold-glow);
     transition: 0.3s; backdrop-filter: blur(5px);
     flex-shrink: 0;
@@ -218,7 +151,7 @@ nav {
 /* Pulse Animation */
 .pin-pulse {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 60px; height: 60px; border: 1px solid var(--gold); border-radius: 50%;
+    width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%;
     animation: pulse 2s infinite; pointer-events: none; opacity: 0;
 }
 .map-pin[data-type="sea"] .pin-pulse { border-color: var(--cyan); }
@@ -227,7 +160,7 @@ nav {
 
 /* Pin Label */
 .pin-label {
-    margin-top: 8px; font-size: 0.9rem; font-weight: bold;
+    margin-top: 8px; font-size: 0.75rem; font-weight: bold;
     background: rgba(0,0,0,0.8); padding: 3px 10px; border-radius: 4px; border: 1px solid #333;
     white-space: nowrap; transition: 0.3s; color: #ddd;
 }
@@ -754,3 +687,59 @@ body.english-mode .filter-btn {
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
     transform: scale(1.05);
 }
+/* PLACE THIS IN YOUR map.css */
+
+/* =========================================
+   RESPONSIVE MAP CONTAINER
+   ========================================= */
+.map-transform-layer {
+    position: relative;
+    width: 100%;             /* Fits the screen width */
+    max-width: 450px;        /* Stops getting too big on PC (Matches your 450px setting) */
+    aspect-ratio: 450/560;   /* LOCKS the shape so it never stretches */
+    margin: 0 auto;
+    /* Removed fixed height so it adjusts automatically */
+}
+
+.map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); 
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg) brightness(1.2) contrast(1.5) drop-shadow(0 0 5px #D4AF37);
+
+    opacity: 0.9;
+
+    transition: all 0.5s ease;
+
+}
+
+
+
+/* Optional: Make it pulse slightly on hover */
+
+.map-wrapper:hover .map-image {
+
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg) brightness(1.4) contrast(1.5) drop-shadow(0 0 15px #D4AF37);
+
+    transform: scale(1.02);
+
+
+}
+
+/* Pins Container must fill the map exactly */
+#pinsContainer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+/* Mobile Fix: Remove the old 'transform: scale' block */
+@media screen and (max-width: 768px) {
+    .map-transform-layer {
+        /* No scaling needed anymore! 
+           The 'width: 100%' above handles it naturally. */
+        margin-top: 20px; 
+    }
+}
+

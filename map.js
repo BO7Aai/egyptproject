@@ -5,7 +5,7 @@ const mapData = [
     // --- 1. GREATER CAIRO & RELIGIOUS COMPLEX ---
     {
         id: "cairo", type: "history", icon: "fa-gopuram",
-        coords: { x: 300, y: 180 },
+        coords: { x: 57.6, y: 22.9 },
         content: {
             ar: { title: "القاهرة الكبرى", desc: "العاصمة، مجمع الأديان وعجائب الدنيا." },
             en: { title: "Greater Cairo", desc: "The Capital, Religious Complex & Wonders." }
@@ -28,7 +28,7 @@ const mapData = [
     // --- 2. THE DELTA & ROSETTA ---
     {
         id: "alexandria", type: "sea", icon: "fa-water",
-        coords: { x: 180, y: 80 },
+        coords: { x: 49.2, y: 15.2 },
         content: {
             ar: { title: "الإسكندرية", desc: "عروس البحر المتوسط." },
             en: { title: "Alexandria", desc: "Pearl of the Mediterranean." }
@@ -41,7 +41,7 @@ const mapData = [
     },
     {
         id: "rashid", type: "history", icon: "fa-book-open",
-        coords: { x: 220, y: 60 },
+        coords: { x: 38, y: 18 },
         content: {
             ar: { title: "رشيد", desc: "مدينة حجر رشيد والمنازل التراثية." },
             en: { title: "Rosetta (Rashid)", desc: "Rosetta Stone & Heritage Houses." }
@@ -51,20 +51,10 @@ const mapData = [
             { img: "nilemouth.jpg", ar: { name: "مصب النيل", desc: "التقاء النهر بالبحر." }, en: { name: "Nile Mouth", desc: "River meets Sea." } }
         ]
     },
-    {
-        id: "tanis", type: "history", icon: "fa-cube",
-        coords: { x: 330, y: 100 },
-        content: {
-            ar: { title: "صان الحجر", desc: "تانيس، عاصمة الفراعنة في الشرقية." },
-            en: { title: "Tanis (San El Hagar)", desc: "Lost Capital of Tanis." }
-        },
-        sites: [
-            { img: "tanisruins.jpg", ar: { name: "آثار تانيس", desc: "طيبه الشمال." }, en: { name: "Tanis Ruins", desc: "Thebes of the North." } }
-        ]
-    },
+    
     {
         id: "mansoura", type: "nature", icon: "fa-notes-medical",
-        coords: { x: 310, y: 110 },
+        coords: { x: 59.0, y: 18.0 },
         content: {
             ar: { title: "المنصورة", desc: "عروس الدلتا ودار ابن لقمان." },
             en: { title: "Mansoura", desc: "Bride of the Delta." }
@@ -77,7 +67,7 @@ const mapData = [
     // --- 3. THE CANAL CITIES ---
     {
         id: "portsaid", type: "sea", icon: "fa-ship",
-        coords: { x: 360, y: 70 },
+        coords: { x: 67.7, y: 12.9 },
         content: {
             ar: { title: "بورسعيد", desc: "المدينة الباسلة." },
             en: { title: "Port Said", desc: "The Valiant City." }
@@ -88,7 +78,7 @@ const mapData = [
     },
     {
         id: "ismailia", type: "nature", icon: "fa-leaf",
-        coords: { x: 350, y: 130 },
+        coords: { x: 67.9, y: 19.8 },
         content: {
             ar: { title: "الإسماعيلية", desc: "مدينة الحدائق." },
             en: { title: "Ismailia", desc: "City of Gardens." }
@@ -99,7 +89,7 @@ const mapData = [
     },
     {
         id: "suez", type: "history", icon: "fa-industry",
-        coords: { x: 360, y: 170 },
+        coords: { x: 73.6, y: 28.1 },
         content: {
             ar: { title: "السويس", desc: "مدخل القناة الجنوبي." },
             en: { title: "Suez", desc: "Canal South Entrance." }
@@ -112,7 +102,7 @@ const mapData = [
     // --- 4. MIDDLE EGYPT & WESTERN DESERT ---
     {
         id: "fayoum", type: "nature", icon: "fa-tree",
-        coords: { x: 270, y: 210 },
+        coords: { x: 54.1, y: 32.1 },
         content: {
             ar: { title: "الفيوم", desc: "مصر الصغرى والشلالات." },
             en: { title: "Fayoum", desc: "Little Egypt & Waterfalls." }
@@ -124,7 +114,7 @@ const mapData = [
     },
     {
         id: "minya", type: "history", icon: "fa-scroll",
-        coords: { x: 280, y: 290 },
+        coords: { x: 52.8, y: 38.4 },
         content: {
             ar: { title: "المنيا", desc: "عروس الصعيد وتل العمارنة." },
             en: { title: "Minya", desc: "Bride of Upper Egypt." }
@@ -136,7 +126,7 @@ const mapData = [
     },
     {
         id: "whitedesert", type: "oasis", icon: "fa-wind",
-        coords: { x: 180, y: 250 },
+        coords: { x: 23.1, y: 28.3 },
         content: {
             ar: { title: "الصحراء البيضاء", desc: "الواحات البحرية والفرافرة." },
             en: { title: "White Desert", desc: "Bahariya & Farafra Oases." }
@@ -148,7 +138,7 @@ const mapData = [
     },
     {
         id: "assiut", type: "history", icon: "fa-church",
-        coords: { x: 290, y: 340 },
+        coords: { x: 53.1, y: 45 },
         content: {
             ar: { title: "أسيوط", desc: "مسار العائلة المقدسة." },
             en: { title: "Assiut", desc: "Holy Family path." }
@@ -160,7 +150,7 @@ const mapData = [
     },
     {
         id: "sohag", type: "history", icon: "fa-place-of-worship",
-        coords: { x: 300, y: 380 },
+        coords: { x: 65.8, y: 47.8 },
         content: {
             ar: { title: "سوهـاج", desc: "أرض المعابد (أبيدوس)." },
             en: { title: "Sohag", desc: "Land of Temples (Abydos)." }
@@ -174,7 +164,7 @@ const mapData = [
     // --- 5. UPPER EGYPT ---
     {
         id: "qena", type: "history", icon: "fa-gopuram",
-        coords: { x: 315, y: 420 },
+        coords: { x: 73.3, y: 53.3 },
         content: {
             ar: { title: "قـنا", desc: "معبد دندرة الجميل." },
             en: { title: "Qena", desc: "Beautiful Dendera Temple." }
@@ -185,7 +175,7 @@ const mapData = [
     },
     {
         id: "luxor", type: "history", icon: "fa-monument",
-        coords: { x: 330, y: 450 },
+        coords: { x: 65.1, y: 59.6 },
         content: {
             ar: { title: "الأقصر", desc: "طيبة، عاصمة العالم القديم." },
             en: { title: "Luxor", desc: "Thebes, Ancient Capital." }
@@ -198,7 +188,7 @@ const mapData = [
     },
     {
         id: "edfu", type: "history", icon: "fa-horse-head",
-        coords: { x: 330, y: 500 },
+        coords: { x: 64, y: 71 },
         content: {
             ar: { title: "إدفو وكوم أمبو", desc: "معابد النيل الأسطورية." },
             en: { title: "Edfu & Kom Ombo", desc: "Legendary Nile Temples." }
@@ -210,7 +200,7 @@ const mapData = [
     },
     {
         id: "aswan", type: "history", icon: "fa-anchor",
-        coords: { x: 330, y: 550 },
+        coords: { x: 80.0, y: 73.1 },
         content: {
             ar: { title: "أسوان", desc: "بلاد النوبة والمعابد الصخرية." },
             en: { title: "Aswan", desc: "Nubia & Rock Temples." }
@@ -225,7 +215,7 @@ const mapData = [
     // --- 6. RED SEA & SINAI ---
     {
         id: "hurghada", type: "sea", icon: "fa-fish",
-        coords: { x: 450, y: 280 },
+        coords: { x: 75, y: 44 },
         content: {
             ar: { title: "الغردقة", desc: "عاصمة البحر الأحمر." },
             en: { title: "Hurghada", desc: "Red Sea Capital." }
@@ -236,7 +226,7 @@ const mapData = [
     },
     {
         id: "marsaalam", type: "sea", icon: "fa-globe-africa",
-        coords: { x: 480, y: 450 },
+        coords: { x: 88, y: 60 },
         content: {
             ar: { title: "مرسى علم", desc: "المالديف المصرية." },
             en: { title: "Marsa Alam", desc: "Egypt's Maldives." }
@@ -247,7 +237,7 @@ const mapData = [
     },
     {
         id: "sharm", type: "sea", icon: "fa-umbrella-beach",
-        coords: { x: 480, y: 230 },
+        coords: { x: 83, y: 39 },
         content: {
             ar: { title: "شرم الشيخ", desc: "مدينة السلام." },
             en: { title: "Sharm El Sheikh", desc: "City of Peace." }
@@ -258,7 +248,7 @@ const mapData = [
     },
     {
         id: "dahab", type: "sea", icon: "fa-swimmer",
-        coords: { x: 485, y: 200 },
+        coords: { x: 83.3, y: 31.8 },
         content: {
             ar: { title: "دهب", desc: "جنة الغواصين والبساطة." },
             en: { title: "Dahab", desc: "Divers' Paradise." }
@@ -269,7 +259,7 @@ const mapData = [
     },
     {
         id: "saint", type: "nature", icon: "fa-mountain",
-        coords: { x: 460, y: 190 },
+        coords: { x: 77, y: 29 },
         content: {
             ar: { title: "سانت كاترين", desc: "الجبال المقدسة." },
             en: { title: "St. Catherine", desc: "Sacred Mountains." }
@@ -281,7 +271,7 @@ const mapData = [
     },
     {
         id: "taba", type: "sea", icon: "fa-campground",
-        coords: { x: 485, y: 170 },
+        coords: { x: 85, y: 28 },
         content: {
             ar: { title: "طابا ونويبع", desc: "مخيمات على البحر وقلعة صلاح الدين." },
             en: { title: "Taba & Nuweiba", desc: "Beach camps & Saladin Castle." }
@@ -294,7 +284,7 @@ const mapData = [
     // --- 7. FAR WEST & NORTH ---
     {
         id: "siwa", type: "oasis", icon: "fa-leaf",
-        coords: { x: 80, y: 150 },
+        coords: { x: 9.5, y: 28.6 },
         content: {
             ar: { title: "واحة سيوة", desc: "غروب الشمس والتراث الأمازيغي." },
             en: { title: "Siwa Oasis", desc: "Sunsets & Berber Heritage." }
@@ -306,7 +296,7 @@ const mapData = [
     },
     {
         id: "matruh", type: "sea", icon: "fa-umbrella-beach",
-        coords: { x: 100, y: 70 },
+        coords: { x: 28.4, y: 16.8 },
         content: {
             ar: { title: "مرسى مطروح", desc: "شواطئ المالديف المصرية." },
             en: { title: "Marsa Matruh", desc: "Egypt's Maldives." }
@@ -340,20 +330,31 @@ window.addEventListener('load', () => {
 });
 
 /* =========================================
-   3. RENDERING PINS
+   3. RENDERING PINS (PERCENTAGE MODE)
    ========================================= */
 function renderPins() {
     pinsContainer.innerHTML = '';
+
     mapData.forEach(city => {
         const pin = document.createElement('div');
         pin.className = 'map-pin';
         pin.setAttribute('data-id', city.id);
         pin.setAttribute('data-type', city.type);
-        pin.style.left = city.coords.x + 'px';
-        pin.style.top = city.coords.y + 'px';
+
+        // DIRECT PERCENTAGE POSITIONING
+        // We assume your data is now saved as percentages (0-100)
+        // If you still have old pixels (300), we convert them temporarily:
+        let leftPos = city.coords.x;
+        let topPos = city.coords.y;
+
+        // Auto-detect if user hasn't updated to % yet (Numbers > 100 are likely pixels)
+        if (leftPos > 100) leftPos = (leftPos / 450) * 100; 
+        if (topPos > 100) topPos = (topPos / 560) * 100;
+
+        pin.style.left = leftPos + '%';
+        pin.style.top = topPos + '%';
 
         const title = currentLang === 'ar' ? city.content.ar.title : city.content.en.title;
-
         pin.innerHTML = `
             <div class="pin-pulse"></div>
             <div class="pin-icon"><i class="fas ${city.icon}"></i></div>
@@ -365,15 +366,10 @@ function renderPins() {
             zoomToCity(city);
         });
 
-        // Re-highlight if this pin was active
-        if(activeCityId === city.id) {
-            pin.classList.add('active');
-        }
-
+        if(activeCityId === city.id) pin.classList.add('active');
         pinsContainer.appendChild(pin);
     });
 }
-
 /* =========================================
    4. ZOOM LOCK-ON LOGIC
    ========================================= */
@@ -620,3 +616,4 @@ filterButtons.forEach(btn => {
         filterTrigger.classList.remove('active');
     });
 });
+
