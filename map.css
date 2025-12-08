@@ -63,66 +63,283 @@ background-image: url('HomeBG.png');
 @keyframes gridMove { 0% { transform: rotateX(60deg) scale(2) translateY(0); } 100% { transform: rotateX(60deg) scale(2) translateY(40px); } }
 
 /* =========================================
-   3. NAVIGATION
+   3. DYNAMIC ISLAND NAVIGATION
    ========================================= */
 nav {
-    position: fixed; top: 0; width: 100%; padding: 1rem 3rem; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    
-    /* GLASSMORPHISM EFFECT */
-    background: rgba(5, 5, 5, 0.6); /* Semi-transparent */
-    backdrop-filter: blur(15px);     /* The Blur Effect */
-    -webkit-backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-}
-.nav-left { display: flex; align-items: center; gap: 20px; }
-.logo { display: flex; align-items: center; gap: 10px; color: var(--gold); font-size: 1.5rem; }
-.logo-img { width: 35px; filter: drop-shadow(0 0 5px var(--gold)); }
-.lang-switch { 
-    cursor: pointer; 
-    font-weight: bold; 
-    border: none;       /* Removed Border */
-    background: none;   /* Removed Background */
-    padding: 2px 10px; 
-    font-size: 0.9rem; 
-    color: #aaa;        /* Default grey like home button */
-    transition: 0.3s;
-}
-.lang-switch span.active { 
-    color: var(--gold); 
-    border-bottom: 1px solid var(--gold); /* Tiny underline for active lang */
-}
-.lang-switch:hover {
-    color: var(--gold); /* Gold on hover */
-}
-
-.search-wrap {
-    /* ABSOLUTE CENTERING */
-    position: absolute;
+    position: fixed;
+    top: 25px;
     left: 50%;
-    transform: translateX(-50%); /* Moves it back by half its width to center perfectly */
+    transform: translateX(-50%);
+    z-index: 1000;
     
-    /* Existing Styles */
-    background: rgba(0,0,0,0.6); 
-    border: 1px solid var(--gold);
-    padding: 8px 20px; 
-    border-radius: 30px; 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-    width: 350px;
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); 
-    transition: 0.3s;
-    z-index: 10;
+    /* Size */
+    width: auto;
+    min-width: 450px;
+    max-width: 95%;
+    padding: 15px 35px;
+    
+    /* Layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    
+    /* THE GLOWING BORDER SETUP */
+    border-radius: 50px;
+    overflow: hidden; /* Keeps the glow inside the round shape */
+    background: #000; /* Fallback */
+    border: 1px solid rgba(255,255,255,0.1);
 }
-.search-wrap:focus-within { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); background: rgba(0,0,0,0.9); }
-.search-wrap input { background: transparent; border: none; color: white; width: 100%; outline: none; font-family: inherit; }
-.search-wrap i { color: var(--gold); }
+/* 1. The Rotating Glow (Behind the content) */
+nav::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(
+        transparent, 
+        transparent, 
+        transparent, 
+        var(--gold) /* The Moving Light */
+    );
+    animation: rotateBorder 4s linear infinite;
+    z-index: 0; /* Behind the black inner island */
+}
 
-.back-link { text-decoration: none; color: #aaa; font-size: 0.9rem; transition: 0.3s; font-family: var(--font-ar-text); }
-.back-link:hover { color: var(--gold); }
+/* 2. The Inner Black Island (Where text sits) */
+nav::after {
+    content: '';
+    position: absolute;
+    inset: 2px; /* Creates the thin border line */
+    background: #000; 
+    border-radius: 48px; 
+    z-index: 0;
+}
 
+/* 3. Animation Keyframes */
+@keyframes rotateBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
+/* 4. IMPORTANT: Bring text above the glow */
+.nav-left, .nav-right, #navFilterBtn {
+    position: relative;
+    z-index: 2; /* Sits on top of the black background */
+}
+/* --- FIXING THE TRANSLATION BUTTON --- */
+.lang-switch {
+    font-size: 1rem;       /* Bigger Text */
+    color: #888;
+    cursor: pointer;       /* Show Pointer Hand */
+    padding: 5px 10px;     /* Clickable Area Padding */
+    border-radius: 8px;
+    transition: 0.3s;
+    user-select: none;     /* Prevent text highlighting */
+}
+
+.lang-switch span {
+    padding: 2px 5px;
+    transition: 0.3s;
+}
+
+.lang-switch span:hover {
+    color: #fff;
+}
+
+.lang-switch span.active {
+    color: var(--gold);
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Hover Effect: Expands slightly */
+nav:hover {
+    transform: translateX(-50%) scale(1.02);
+    border-color: var(--gold);
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+}
+
+/* Left Section (Logo + Lang) */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 1rem;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.logo-img {
+    width: 25px; /* Smaller logo for compact bar */
+    height: auto;
+}
+
+/* Language Switcher */
+.lang-switch {
+    font-size: 0.8rem;
+    color: #666;
+    padding-left: 10px;
+    border-left: 1px solid #333;
+}
+
+/* Back Link (Right Side) */
+.back-link {
+    text-decoration: none;
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-link:hover {
+    text-shadow: 0 0 10px var(--gold);
+}
+
+/* --- MOBILE ADJUSTMENT --- */
+@media screen and (max-width: 768px) {
+    nav {
+        top: 15px;
+        min-width: 90%;      /* Wider on phone */
+        padding: 8px 20px;
+        gap: 10px;
+    }
+    
+    .logo span {
+        display: none;       /* Hide text logo on tiny screens to save space */
+    }
+    
+    .logo-img {
+        width: 30px;
+    }
+}
+/* =========================================
+   NAV FILTER BUTTON & MENU
+   ========================================= */
+
+/* 1. The Filter Icon Button */
+.nav-icon-btn {
+    background: transparent;
+    border: none;
+    color: #bbb;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
+}
+
+.nav-icon-btn:hover, .nav-icon-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* 2. The Dropdown Menu */
+.filter-dropdown {
+    position: absolute;
+    top: 100px; /* Pushes it below the island */
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    
+    width: max-content;
+    min-width: 200px;
+    
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 15px;
+    
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically like a burger menu */
+    gap: 8px;
+    
+    opacity: 0;
+    pointer-events: none; /* Not clickable when hidden */
+    visibility: hidden;
+    
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    z-index: 2300; /* Behind nav until opened */
+}
+
+/* Active State (Open) */
+.filter-dropdown.open {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+    top: 70px; /* Slide down animation */
+}
+
+/* 3. Style the Filter Buttons inside */
+.filter-dropdown .filter-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #ccc;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: inherit;
+    width: 100%; /* Full width */
+}
+
+.filter-dropdown .filter-btn:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+}
+
+.filter-dropdown .filter-btn.active {
+    background: var(--gold);
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 0 15px var(--gold-glow);
+}
+
+/* Remove old nav-right styling if needed, or add this helper */
+.nav-right {
+    display: flex; align-items: center; gap: 15px;
+}
+/* =========================================
+   CENTERED MAP VIEWPORT (Fixes Map Position)
+   ========================================= */
+.map-viewport {
+    position: relative;
+    width: 100%;
+    height: 100vh;           /* Full Screen Height */
+    
+    /* FLEXBOX CENTERING */
+    display: flex;
+    justify-content: center; /* Center Horizontally */
+    align-items: center;     /* Center Vertically */
+    
+    /* NAV BAR PROTECTION */
+    padding-top: 80px;       /* Push map down so it doesn't hide behind Nav */
+    box-sizing: border-box;
+    
+    overflow: hidden;
+}
+
+/* MOBILE ADJUSTMENT */
+@media screen and (max-width: 768px) {
+    .map-viewport {
+        padding-top: 100px;      /* More space on phone */
+        align-items: flex-start; /* Start map near top on phone */
+    }
+}
 /* =========================================
    5. PINS (أيقونات ملونة)
    ========================================= */
@@ -375,7 +592,7 @@ body.english-mode .close-panel {
 .site-modal {
     position: fixed; inset: 0; 
     background: rgba(0,0,0,0.95); /* Darker for focus */
-    z-index: 300;
+    z-index: 2000;
     display: flex; justify-content: center; align-items: center;
     opacity: 0; pointer-events: none; 
     transition: 0.4s; backdrop-filter: blur(10px);
@@ -490,42 +707,43 @@ body.english-mode .close-modal {
 }
 /* Mobile */
 /* =========================================
-   MOBILE RESPONSIVENESS FIXES
+   MOBILE RESPONSIVENESS FIXES (FINAL)
    ========================================= */
 @media screen and (max-width: 768px) {
     
-    /* 1. Fix Search Box Width */
-    .search-wrap {
-        width: 60%; /* Use percentage instead of fixed px */
-        max-width: 250px; /* Cap it so it's not too huge */
-        padding: 6px 15px; /* Slightly smaller padding */
-    }
-    
-    .search-wrap input {
-        font-size: 0.9rem; /* Prevent zoom on iOS */
-    }
-
-    /* 2. Adjust Nav Padding */
+    /* 1. NAV BAR & SEARCH FIX */
     nav {
-        padding: 0.8rem 1rem; /* Less padding on sides */
+        padding: 0.8rem 1rem;
+        flex-wrap: wrap; /* Allows items to drop to next line */
+        height: auto;    /* Let height grow */
+        gap: 10px;       /* Space between rows */
+        background: rgba(5, 5, 5, 0.85); /* Darker background for readability */
     }
 
-    /* 3. Adjust Logo Size */
-    .logo { font-size: 1.2rem; }
-    .logo-img { width: 30px; }
 
-    /* 4. Filter Dock (Ensure it fits) */
-    .filter-dock {
-        width: 95%; /* Take almost full width */
-        bottom: 20px; /* Slightly lower */
-        gap: 5px; /* Tighter gap */
-    }
-    
     .filter-btn {
-        padding: 6px 12px; /* Smaller buttons */
-        font-size: 0.8rem;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        white-space: nowrap; /* Keep text on one line */
+        flex-shrink: 0;      /* Prevent squishing */
     }
 
+    /* 3. MAP ADJUSTMENTS */
+    .map-transform-layer {
+        margin-top: 80px; /* Push map down so it doesn't hide behind new big Nav */
+        transform: scale(1); /* Reset scale */
+        width: 100%;
+    }
+
+    /* 4. CITY PANEL (Bottom Sheet) */
+    .city-panel {
+        height: 60vh;
+        bottom: -70vh; /* Hidden */
+        z-index: 300;  /* Above filter dock */
+    }
+    .city-panel.open {
+        bottom: 0;
+    }
 }
 @keyframes pulse { 0% { opacity: 1; transform: translate(-50%,-50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(1.5); } }
 /* HERO TITLE ANIMATION */
@@ -697,7 +915,10 @@ body.english-mode .filter-btn {
     width: 100%;             /* Fits the screen width */
     max-width: 450px;        /* Stops getting too big on PC (Matches your 450px setting) */
     aspect-ratio: 450/560;   /* LOCKS the shape so it never stretches */
-    margin: 0 auto;
+    margin: 0;
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: center center;
+    will-change: transform;
     /* Removed fixed height so it adjusts automatically */
 }
 
@@ -705,7 +926,6 @@ body.english-mode .filter-btn {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); 
     filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg) brightness(1.2) contrast(1.5) drop-shadow(0 0 5px #D4AF37);
 
     opacity: 0.9;
@@ -713,9 +933,6 @@ body.english-mode .filter-btn {
     transition: all 0.5s ease;
 
 }
-
-
-
 /* Optional: Make it pulse slightly on hover */
 
 .map-wrapper:hover .map-image {
@@ -742,4 +959,6 @@ body.english-mode .filter-btn {
         margin-top: 20px; 
     }
 }
+
+
 

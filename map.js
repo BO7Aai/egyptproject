@@ -321,9 +321,38 @@ const mapLayer = document.getElementById('mapLayer');
 const pinsContainer = document.getElementById('pinsContainer');
 const cityPanel = document.getElementById('cityPanel');
 const sitesList = document.getElementById('sitesList');
-const resetBtn = document.getElementById('resetZoom');
-const searchInput = document.getElementById('mapSearch');
+/* =========================================
+   FIXED BACK BUTTON & ZOOM LOGIC
+   ========================================= */
+// Wait for everything to load to ensure button exists
+window.addEventListener('load', () => {
+    const safeResetBtn = document.getElementById('resetZoom');
+    
+    if (safeResetBtn) {
+        // Remove old listeners to prevent bugs
+        const newBtn = safeResetBtn.cloneNode(true);
+        safeResetBtn.parentNode.replaceChild(newBtn, safeResetBtn);
+        
+        // Add the fresh Click Event
+        newBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Stop any weird jumping behavior
+            resetMap();
+        });
+    }
+});
 
+function resetMap() {
+    activeCityId = null;
+    
+    // 1. Reset the Map Position (Smoothly goes back to 0,0)
+    mapLayer.style.transform = `translate(0px, 0px) scale(1)`;
+    
+    // 2. Hide the Panel
+    cityPanel.classList.remove('open');
+    
+    // 3. Remove Active State from Pins
+    document.querySelectorAll('.map-pin').forEach(p => p.classList.remove('active'));
+}
 window.addEventListener('load', () => {
     renderPins();
     setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 1000);
@@ -371,32 +400,40 @@ function renderPins() {
     });
 }
 /* =========================================
-   4. ZOOM LOCK-ON LOGIC
+   4. ZOOM LOCK-ON LOGIC (FIXED)
    ========================================= */
 function zoomToCity(city) {
     activeCityId = city.id; // Track Active City
     
-    const scale = 2.0;
-    const deltaX = (300 - city.coords.x) * scale;
-    const deltaY = (350 - city.coords.y) * scale;
-
-    mapLayer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scale})`;
+    // 1. Get the CURRENT size of the map (it changes on phones!)
+    const currentWidth = mapLayer.offsetWidth;
+    const currentHeight = mapLayer.offsetHeight;
     
+    // 2. Convert the City's Percentage to Real Pixels
+    // (e.g., 50% of 1000px = 500px)
+    const cityPixelX = (city.coords.x / 100) * currentWidth;
+    const cityPixelY = (city.coords.y / 100) * currentHeight;
+    
+    // 3. Calculate how far we need to move to get to the center
+    // Formula: (Center of Map - City Position)
+    const centerX = currentWidth / 2;
+    const centerY = currentHeight / 2;
+    
+    const moveX = centerX - cityPixelX;
+    const moveY = centerY - cityPixelY;
+    
+    // 4. Apply Zoom
+    // We multiply the move distance by the scale (2) to account for the zoom
+    const scale = 2.5; // Slightly deeper zoom for better view
+    
+    mapLayer.style.transform = `translate(${moveX * scale}px, ${moveY * scale}px) scale(${scale})`;
+    
+    // Highlight the Pin
     document.querySelectorAll('.map-pin').forEach(p => p.classList.remove('active'));
     document.querySelector(`.map-pin[data-id="${city.id}"]`).classList.add('active');
 
     openCityPanel(city);
 }
-
-resetBtn.addEventListener('click', resetMap);
-
-function resetMap() {
-    activeCityId = null; // Clear Active City
-    mapLayer.style.transform = `translate(0, 0) scale(1)`;
-    cityPanel.classList.remove('open');
-    document.querySelectorAll('.map-pin').forEach(p => p.classList.remove('active'));
-}
-
 /* =========================================
    5. PANEL & LIST LOGIC (FIXED)
    ========================================= */
@@ -445,6 +482,7 @@ function setLang(lang) {
     currentLang = lang;
     document.body.className = lang === 'en' ? 'english-mode' : '';
     document.documentElement.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+    document.querySelector('nav').setAttribute('dir', 'ltr');
     
     // UI Updates
     document.querySelectorAll('[data-lang]').forEach(el => {
@@ -452,8 +490,6 @@ function setLang(lang) {
         if(uiTrans[lang][key]) el.innerText = uiTrans[lang][key];
     });
     
-    // Update Search Placeholder if it exists
-    if(searchInput) searchInput.placeholder = uiTrans[lang].search;
 
     // Refresh Pins & Panel
     renderPins();
@@ -466,17 +502,7 @@ function setLang(lang) {
 langEn.addEventListener('click', () => { langEn.classList.add('active'); langAr.classList.remove('active'); setLang('en'); });
 langAr.addEventListener('click', () => { langAr.classList.add('active'); langEn.classList.remove('active'); setLang('ar'); });
 
-// Search Logic
-searchInput.addEventListener('keyup', (e) => {
-    const val = e.target.value.toLowerCase();
-    document.querySelectorAll('.map-pin').forEach(pin => {
-        const id = pin.getAttribute('data-id');
-        const city = mapData.find(c => c.id === id);
-        const match = city.content.en.title.toLowerCase().includes(val) || city.content.ar.title.includes(val);
-        pin.style.opacity = match ? "1" : "0.1";
-        pin.style.pointerEvents = match ? "all" : "none";
-    });
-});
+
 
 /* =========================================
    7. GOLDEN SAND CURSOR
@@ -581,39 +607,42 @@ Object.assign(uiTrans.en, {
     filter_delta: "Delta & Canal"
 });
 /* =========================================
-   FILTER MENU TOGGLE LOGIC
+   NAV FILTER TOGGLE LOGIC
    ========================================= */
-const filterTrigger = document.getElementById('filterToggle');
-const filterMenu = document.getElementById('filterMenu');
+const navFilterBtn = document.getElementById('navFilterBtn');
+const navFilterMenu = document.getElementById('navFilterMenu');
 
-// Toggle Menu
-if(filterTrigger) {
-    filterTrigger.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent immediate closing
-        filterMenu.classList.toggle('open');
-        filterTrigger.classList.toggle('active');
+// 1. Toggle Menu on Click
+if(navFilterBtn) {
+    navFilterBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Don't close immediately
+        navFilterMenu.classList.toggle('open');
+        navFilterBtn.classList.toggle('active');
     });
 }
 
-// Close Menu when clicking outside
+// 2. Close Menu when clicking outside
 document.addEventListener('click', (e) => {
-    if (filterMenu && filterMenu.classList.contains('open')) {
-        if (!filterMenu.contains(e.target) && !filterTrigger.contains(e.target)) {
-            filterMenu.classList.remove('open');
-            filterTrigger.classList.remove('active');
+    if (navFilterMenu && navFilterMenu.classList.contains('open')) {
+        if (!navFilterMenu.contains(e.target) && e.target !== navFilterBtn) {
+            navFilterMenu.classList.remove('open');
+            navFilterBtn.classList.remove('active');
         }
     }
 });
 
-// Close Menu after selecting a filter
-const filterButtons = document.querySelectorAll('.filter-btn');
-filterButtons.forEach(btn => {
+// 3. Close Menu after selecting an option
+const fBtns = document.querySelectorAll('.filter-btn');
+fBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // ... (Your existing filtering logic runs here) ...
+        // ... (Your filtering logic runs here via existing event listeners) ...
         
-        // Add this line to close menu after selection
-        filterMenu.classList.remove('open');
-        filterTrigger.classList.remove('active');
+        // UI Updates
+        fBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Close the dropdown
+        navFilterMenu.classList.remove('open');
+        navFilterBtn.classList.remove('active');
     });
 });
-

@@ -10,7 +10,14 @@
     <link rel="stylesheet" href="map.css">
 </head>
 <body>
-
+<div id="navFilterMenu" class="filter-dropdown">
+        <button class="filter-btn active" data-filter="all" data-lang="filter_all">الكل</button>
+        <button class="filter-btn" data-filter="ancient" data-lang="filter_ancient">آثار قديمة</button>
+        <button class="filter-btn" data-filter="sea" data-lang="filter_sea">شواطئ</button>
+        <button class="filter-btn" data-filter="nature" data-lang="filter_nature">طبيعة</button>
+        <button class="filter-btn" data-filter="religious" data-lang="filter_religious">دينية</button>
+        <button class="filter-btn" data-filter="delta" data-lang="filter_delta">مدن الدلتا</button>
+    </div>
     <div id="preloader">
         <div class="loader-container">
             <div class="ring-outer"></div>
@@ -24,40 +31,31 @@
         <div class="tech-grid"></div>
     </div>
 
-    <nav>
-        <div class="nav-left">
-            <div class="logo">
-                <img src="logo.png" alt="Logo" class="logo-img">
+    <nav dir="ltr">
+    <div class="nav-left">
+        <div class="logo">
+            <img src="logo.png" alt="Logo" class="logo-img">
+            
                 <span data-lang="logo">مصر القديمة</span>
-            </div>
-            <div class="lang-switch">
-                <span id="lang-ar" class="active">عربي</span> | <span id="lang-en">EN</span>
-            </div>
         </div>
-        <div class="search-wrap">
-            <i class="fas fa-search"></i>
-            <input type="text" id="mapSearch" placeholder="بحث...">
-        </div>
-        <a href="index.html" class="back-link" data-lang="back">الرئـيسيـه</a>
-        
-    </nav>
-<!-- FILTER SYSTEM -->
-    <div class="filter-wrapper">
-        <!-- 1. The Trigger Button (Top Right/Left) -->
-        <button id="filterToggle" class="filter-trigger">
-            <i class="fas fa-filter"></i>
-            <span data-lang="filter_title">تصنيف</span>
-        </button>
-
-    <!-- BOTTOM FLOATING DOCK -->
-    <div class="filter-dock">
-        <button class="filter-btn active" data-filter="all" data-lang="filter_all">الكل</button>
-        <button class="filter-btn" data-filter="ancient" data-lang="filter_ancient">آثار مصر القديمة</button>
-        <button class="filter-btn" data-filter="sea" data-lang="filter_sea">بحار وشواطىْ</button>
-        <button class="filter-btn" data-filter="nature" data-lang="filter_nature"> طبيعة وواحات</button>
-        <button class="filter-btn" data-filter="religious" data-lang="filter_religious">سياحه دينية</button>
-        <button class="filter-btn" data-filter="delta" data-lang="filter_delta">مدن الدلتا</button>
     </div>
+
+    <button id="navFilterBtn" class="nav-icon-btn"><i class="fas fa-filter"></i></button>
+<div class="nav-right">
+    <div class="lang-switch">
+        <span id="lang-ar" class="active">عربي</span>
+        <span class="separator">|</span> 
+        <span id="lang-en">EN</span>
+    </div>
+
+    <a href="index.html" class="back-link">
+        <span data-lang="back">الرئيسية</span> 
+        <i class="fas fa-home"></i>
+    </a>
+</div>
+    
+</nav>
+    
     <main class="map-viewport">
         <div class="map-transform-layer" id="mapLayer">
             <img src="egyptmap.png" class="map-image" alt="Egypt Map">
